@@ -22,6 +22,10 @@ object Example {
     val streamTableEnv: StreamTableEnvironment = StreamTableEnvironment.create(env)
     val dataTable: Table = streamTableEnv.fromDataStream(mapStream)
 
+    //执行计划
+    val stringExplain: String = streamTableEnv.explain(dataTable)
+    println(stringExplain)
+
     val resultTable: Table = dataTable.select("id,temperature")
       .filter("id = 'sensor_1'") // == 与 = 同效果
     resultTable.toAppendStream[(String,Double)].print("table result")
